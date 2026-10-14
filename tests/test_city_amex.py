@@ -11,6 +11,7 @@ from tests.fixtures import sms
     [
         (sms.AMEX_PURCHASE, TxnType.DEBIT, "3634.00", "RANG BANGLADESH LTD JAMUNA FUT"),
         (sms.AMEX_PURCHASE_BDT_ONE_LINE, TxnType.DEBIT, "2000.00", "UNIMART GULSHAN"),
+        (sms.AMEX_PURCHASE_WITH_DATE, TxnType.DEBIT, "1816.00", "SHOP NAME"),
         (sms.AMEX_PAYMENT_RECEIVED, TxnType.CREDIT, "28260.00", "Card payment"),
         (sms.AMEX_PAYMENT_OF, TxnType.CREDIT, "28260.00", "Card payment"),
     ],
