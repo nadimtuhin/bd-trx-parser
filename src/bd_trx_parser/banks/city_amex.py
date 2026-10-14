@@ -12,7 +12,12 @@ from .base import BankParser
 _MONEY = rf"(?:Tk\.?|BDT)\s*{AMOUNT}"
 _CARD_NO = r"CARD\s+NO:?\s*([\d*]+)"
 # "Tk. 3,634.00 purchased at RANG BANGLADESH LTD JAMUNA FUT\nCARD NO: 371***999"
-_PURCHASE = re.compile(rf"{_MONEY}\s+purchased\s+at\s+(.+?)(?:\s+on\s+\d{{1,2}}-[a-z]{{3}}-\d{{2,4}}\.?)?\s*(?:\n|\bCARD\b|$)", re.I)
+_PURCHASE = re.compile(
+    rf"{_MONEY}\s+purchased\s+at\s+(.+?)"
+    r"(?:\s+on\s+\d{1,2}-[a-z]{3}-\d{2,4}\.?)?"
+    r"\s*(?:\n|\bCARD\b|$)",
+    re.I,
+)
 # "Tk. 28,260.00 payment received" / "Payment of BDT 28,260.00 received for AMEX CARD NO: ..."
 _PAYMENT = re.compile(rf"{_MONEY}\s+payment\s+received|Payment\s+of\s+{_MONEY}\s+received", re.I)
 _BALANCE = re.compile(rf"\bBal\s+{_MONEY}", re.I)
