@@ -23,7 +23,7 @@ Parsing these SMS messages by hand is deceptively painful:
 - **Multi-Tranche Remittances**: International inward remittances to mobile wallets (like bKash) often arrive split across a main remittance credit SMS and a separate 2.5% Government Incentive SMS, neither of which includes a wallet balance line.
 - **Idiosyncratic Syntax**: Between BEFTN, NPSB, POS purchases, ATM cash out, merchant QR scans, and monthly bill statements, every institution invents its own text grammar.
 
-`bd-trx-parser` is the distilled, battle-tested parsing engine extracted from over 3 years of daily personal finance automation across 9+ Bangladeshi institutions. It handles these quirks gracefully, uses exact `Decimal` math for monetary precision, enforces strict type annotations, and requires **zero external runtime dependencies** (pure Python standard library).
+`bd-trx-parser` is the distilled, battle-tested parsing engine extracted from daily personal finance automation across 9+ Bangladeshi institutions. It handles these quirks gracefully, uses exact `Decimal` math for monetary precision, enforces strict type annotations, and requires **zero external runtime dependencies** (pure Python standard library).
 
 ---
 
@@ -67,13 +67,13 @@ print(amex_bal.is_liability) # True (credit card available credit)
 ## Installation
 
 ```bash
-pip install bd-trx-parser
+pip install git+https://github.com/nadimtuhin/bd-trx-parser
 ```
 
 Or using `uv`:
 
 ```bash
-uv add bd-trx-parser
+uv add git+https://github.com/nadimtuhin/bd-trx-parser
 ```
 
 ---
