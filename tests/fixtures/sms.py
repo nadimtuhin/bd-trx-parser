@@ -157,3 +157,9 @@ NAGAD_SEND_MONEY = (
     "Charge: Tk 5.00\nBalance: Tk 3,828.17"
 )
 NAGAD_OTP = "Your Nagad verification code is 482910. It expires in 2 minutes."
+BKASH_SEND_MONEY_REVERSED = (
+    "Your Send Money Tk 500.00 to 01912****77 has been reversed. Balance Tk 1,000.00. TrxID ZZ12YY34XX"
+)
+NAGAD_PAYMENT = (
+    "Payment Successful.\nAmount: Tk 250.00\nMerchant: DEMO STORE\nTxnID: 73QRST90\nBalance: Tk 3,578.17"
+)

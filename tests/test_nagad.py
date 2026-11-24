@@ -30,3 +30,14 @@ def test_nagad(text, txn_type, amount, description, reference, balance):
 def test_otp_is_ignored():
     assert parse_sms(sms.NAGAD_OTP, "NAGAD") is None
     assert parse_balance(sms.NAGAD_OTP, "NAGAD") is None
+
+
+def test_merchant_payment():
+    txn = parse_sms(sms.NAGAD_PAYMENT, "NAGAD")
+    assert txn.txn_type is TxnType.DEBIT
+    assert txn.amount == Decimal("250.00")
+    assert txn.description == "Payment to DEMO STORE"
+    assert txn.reference == "73QRST90"
+    assert parse_balance(sms.NAGAD_PAYMENT, "NAGAD").balance == Decimal("3578.17")
+    # Without a sender the dispatcher must still route it to Nagad.
+    assert parse_sms(sms.NAGAD_PAYMENT).bank is Bank.NAGAD

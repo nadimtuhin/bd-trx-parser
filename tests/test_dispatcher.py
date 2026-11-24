@@ -185,3 +185,12 @@ def test_cli_reads_stdin(monkeypatch, capsys):
 def test_cli_exits_1_on_unparseable_sms(capsys):
     assert main(["hello"]) == 1
     assert json.loads(capsys.readouterr().out) == {"transaction": None, "balance": None}
+
+
+@pytest.mark.parametrize("bad_date", ["12-10-2026", "yesterday", "2026-13-01"])
+def test_cli_rejects_bad_date_without_traceback(bad_date, capsys):
+    """A malformed --date is a usage error (exit 2 + message), not an uncaught ValueError."""
+    with pytest.raises(SystemExit) as exc:
+        main([sms.DBBL_ATM_WITHDRAWAL, "--date", bad_date])
+    assert exc.value.code == 2
+    assert "--date" in capsys.readouterr().err

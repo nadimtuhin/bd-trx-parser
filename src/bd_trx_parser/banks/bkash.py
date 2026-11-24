@@ -27,6 +27,19 @@ def _counterparty(m: re.Match[str]) -> str:
 
 # Checked in order; the first match wins.
 _LAYOUTS: list[tuple[re.Pattern[str], TxnType, DescribeMatch]] = [
+    # A reversal mentions the original debit ("Send Money Tk 500.00 to ... has been reversed"),
+    # so it must be matched before the debit layouts below or it would be booked as a second debit.
+    (
+        re.compile(
+            rf"(?P<what>Send\s+Money|Payment|Cash\s+Out)\s+(?:of\s+)?{_TK}"
+            r"(?:\s+to\s+(?P<who>\S+))?[^.\n]*?\breversed\b",
+            re.I,
+        ),
+        TxnType.CREDIT,
+        lambda m: "Reversal: "
+        + " ".join(m.group("what").split())
+        + (f" to {_counterparty(m)}" if m.group("who") else ""),
+    ),
     (
         re.compile(rf"Payment\s+(?:of\s+)?{_TK}\s+to\s+(?P<who>.+?)\s+(?:is\s+)?successful", re.I),
         TxnType.DEBIT,

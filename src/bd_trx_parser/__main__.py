@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from datetime import date
 
 from . import __version__, parse_balance, parse_sms
 from .models import Bank
@@ -38,9 +39,16 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("text", nargs="?", help="SMS body; read from stdin when omitted")
     parser.add_argument("--sender", help="SMS sender mask, e.g. EBL, bKash, 16216")
     parser.add_argument("--bank", choices=[b.value for b in Bank], help="force a specific institution")
-    parser.add_argument("--date", help="receive date, YYYY-MM-DD")
+    parser.add_argument("--date", type=_iso_date, help="receive date, YYYY-MM-DD")
     parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     return parser
+
+
+def _iso_date(value: str) -> date:
+    try:
+        return date.fromisoformat(value)
+    except ValueError:
+        raise argparse.ArgumentTypeError(f"invalid date {value!r}, expected YYYY-MM-DD") from None
 
 
 if __name__ == "__main__":
