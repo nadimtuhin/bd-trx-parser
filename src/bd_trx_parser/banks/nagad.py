@@ -17,9 +17,9 @@ from ..utils import AMOUNT, group_or_none, parse_amount
 from .base import BankParser
 
 _TK = rf"Tk\.?\s*{AMOUNT}"
-_HEADER = re.compile(r"^(Money\s+Received|Cash\s+In|Cash\s+Out|Send\s+Money)\b", re.I | re.M)
+_HEADER = re.compile(r"^(Money\s+Received|Cash\s+In|Cash\s+Out|Send\s+Money|Payment)\b", re.I | re.M)
 _AMOUNT_LINE = re.compile(rf"^Amount:\s*{_TK}", re.I | re.M)
-_COUNTERPARTY = re.compile(r"^(?:Sender|Receiver|Uddokta|Agent):\s*(\S+)", re.I | re.M)
+_COUNTERPARTY = re.compile(r"^(?:Sender|Receiver|Uddokta|Agent|Merchant):\s*([^\n]+?)\s*$", re.I | re.M)
 _BALANCE = re.compile(rf"^Balance:\s*{_TK}", re.I | re.M)
 
 # header (lower-cased, single-spaced) -> (direction, label, preposition before the counterparty)
@@ -28,6 +28,7 @@ _ACTIONS: dict[str, tuple[TxnType, str, str]] = {
     "cash in": (TxnType.CREDIT, "Cash In", "from"),
     "cash out": (TxnType.DEBIT, "Cash Out", "to"),
     "send money": (TxnType.DEBIT, "Send Money", "to"),
+    "payment": (TxnType.DEBIT, "Payment", "to"),
 }
 
 

@@ -170,10 +170,10 @@ Outputs formatted JSON:
   "transaction": {
     "bank": "EBL",
     "txn_type": "DR",
-    "amount": "5000.00",
+    "amount": "5000",
     "currency": "BDT",
     "account": "127**9952",
-    "description": "ATM Cash WD (ATM)",
+    "description": "ATM Cash WD (EBL ATM)",
     "date": null,
     "reference": null,
     "hash": "..."
@@ -181,7 +181,7 @@ Outputs formatted JSON:
   "balance": {
     "bank": "EBL",
     "account": "127**9952",
-    "balance": "17984.30",
+    "balance": "17984.3",
     "currency": "BDT",
     "date": null,
     "is_liability": false

@@ -59,3 +59,13 @@ def test_remittance_without_balance_line():
 def test_amount_is_not_confused_with_fee():
     """The Fee field also says 'Tk'; the amount must come from the action phrase."""
     assert parse_sms(sms.BKASH_CASH_OUT, "bKash").amount == Decimal("1000.00")
+
+
+def test_reversed_send_money_is_a_credit():
+    """A reversal returns the money to the wallet; it must not be booked as a second debit."""
+    txn = parse_sms(sms.BKASH_SEND_MONEY_REVERSED, "bKash")
+    assert txn.txn_type is TxnType.CREDIT
+    assert txn.amount == Decimal("500.00")
+    assert txn.description == "Reversal: Send Money to 01912****77"
+    assert txn.reference == "ZZ12YY34XX"
+    assert parse_balance(sms.BKASH_SEND_MONEY_REVERSED, "bKash").balance == Decimal("1000.00")
